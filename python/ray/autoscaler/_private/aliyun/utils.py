@@ -155,8 +155,6 @@ class AcsClient:
         spot_strategy="SpotWithPriceLimit",
         internet_charge_type="PayByTraffic",
         internet_max_bandwidth_out=1,
-        zone_id=None,
-        system_disk_category = None
     ):
         """Create one or more pay-as-you-go or subscription
             Elastic Compute Service (ECS) instances
@@ -197,14 +195,14 @@ class AcsClient:
         request.set_SecurityGroupId(security_group_id)
         request.set_VSwitchId(vswitch_id)
         request.set_KeyPairName(key_pair_name)
-        if zone_id is not None:
+        zone_id = ""
+        if instance_type == "ecs.i2.8xlarge":
+            zone_id = "eu-central-1a"
+            vswitch_id = "vsw-gw8bcf9rijr09wbls5ssw"
             request.set_ZoneId(zone_id)
-        system_disk_category = ""
-        if instance_type == "ecs.c7a.32xlarge":
-            system_disk_category = "cloud_essd"
-            request.set_SystemDiskCategory(system_disk_category)
+            request.set_VSwitchId(vswitch_id)
 
-        logging.info(f"DEBUG v3 instance_type {instance_type} system_disk_category {system_disk_category}")
+        logging.info(f"DEBUG v5 instance_type {instance_type} zone_id {zone_id} vswitch_id {vswitch_id}")
         response = self._send_request(request)
         if response is not None:
             instance_ids = response.get("InstanceIdSets").get("InstanceIdSet")
