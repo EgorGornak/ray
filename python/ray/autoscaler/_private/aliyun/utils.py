@@ -196,13 +196,13 @@ class AcsClient:
         request.set_VSwitchId(vswitch_id)
         request.set_KeyPairName(key_pair_name)
         zone_id = ""
-        if instance_type == "ecs.i2.8xlarge":
+        if instance_type == "ecs.i3.8xlarge":
             zone_id = "eu-central-1a"
             vswitch_id = "vsw-gw8bcf9rijr09wbls5ssw"
             request.set_ZoneId(zone_id)
             request.set_VSwitchId(vswitch_id)
 
-        logging.info(f"DEBUG v5 instance_type {instance_type} zone_id {zone_id} vswitch_id {vswitch_id}")
+        logging.info(f"DEBUG v6 instance_type {instance_type} zone_id {zone_id} vswitch_id {vswitch_id}")
         response = self._send_request(request)
         if response is not None:
             instance_ids = response.get("InstanceIdSets").get("InstanceIdSet")
