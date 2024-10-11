@@ -262,7 +262,7 @@ class AliyunNodeProvider(NodeProvider):
                 security_group_id=self.provider_config["security_group_id"],
                 key_pair_name=self.provider_config["key_name"],
                 zone_id=self.provider_config["zone_id"],
-                system_disk_category=node_config['SystemDiskCategory']
+                system_disk_category=node_config['SystemDiskCategoryTest']
             )
             instances = self.acs.describe_instances(instance_ids=instance_id_sets)
 
