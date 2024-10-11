@@ -68,16 +68,28 @@ class AcsClient:
         :param instance_ids: The IDs of ECS instances
         :return: ECS instance list
         """
-        request = DescribeInstancesRequest()
-        if tags is not None:
-            request.set_Tags(tags)
-        if instance_ids is not None:
-            request.set_InstanceIds(instance_ids)
-        response = self._send_request(request)
-        if response is not None:
-            instance_list = response.get("Instances").get("Instance")
-            return instance_list
-        return None
+        result = []
+        page_size = 100
+        page_number = 1
+        while True:
+            request = DescribeInstancesRequest()
+            if tags is not None:
+                request.set_Tags(tags)
+            if instance_ids is not None:
+                request.set_InstanceIds(instance_ids)
+            request.set_PageSize(page_size)
+            request.set_PageNumber(page_number)
+            response = self._send_request(request)
+            if response is not None:
+                instance_list = response.get("Instances").get("Instance")
+                print(f"page_number: {page_number} len(instance_list) {len(instance_list)}")
+                result += instance_list
+                if len(instance_list) != page_size:
+                    return result
+                page_number += 1
+                time.sleep(1)
+            else:
+                return None
 
     def create_instance(
         self,
