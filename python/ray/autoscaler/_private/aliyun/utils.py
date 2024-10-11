@@ -204,7 +204,7 @@ class AcsClient:
             system_disk_category = "cloud_essd"
             request.set_SystemDiskCategory(system_disk_category)
 
-        logging.info(f"DEBUG instance_type {instance_type} system_disk_category {system_disk_category}")
+        logging.info(f"DEBUG v3 instance_type {instance_type} system_disk_category {system_disk_category}")
         response = self._send_request(request)
         if response is not None:
             instance_ids = response.get("InstanceIdSets").get("InstanceIdSet")
