@@ -72,17 +72,18 @@ def _get_or_create_vpc(config):
 def _get_or_create_vswitch(config):
     cli = _client(config)
     logging.info(f'DEBUG v_switch_id = {config["provider"]["v_switch_id"]}')
-    # config["provider"]["v_switch_id"] = config["provider"]
-    # vswitches = cli.describe_v_switches(vpc_id=config["provider"]["vpc_id"])
-    # if vswitches is not None and len(vswitches) > 0:
-    #     config["provider"]["v_switch_id"] = vswitches[0].get("VSwitchId")
-    #     return
+    config["provider"]["v_switch_id"] = config["provider"]
+    vswitches = cli.describe_v_switches(vpc_id=config["provider"]["vpc_id"])
+    if vswitches is not None and len(vswitches) > 0:
+        pass 
+        # config["provider"]["v_switch_id"] = vswitches[0].get("VSwitchId")
+        return
 
-    # v_switch_id = cli.create_v_switch(
-    #     vpc_id=config["provider"]["vpc_id"],
-    #     zone_id=config["provider"]["zone_id"],
-    #     cidr_block=config["provider"]["cidr_block"],
-    # )
+    v_switch_id = cli.create_v_switch(
+        vpc_id=config["provider"]["vpc_id"],
+        zone_id=config["provider"]["zone_id"],
+        cidr_block=config["provider"]["cidr_block"],
+    )
 
     # if v_switch_id is not None:
     #     config["provider"]["v_switch_id"] = v_switch_id
