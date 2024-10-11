@@ -1,5 +1,6 @@
 import json
 import logging
+import time
 
 from aliyunsdkcore import client
 from aliyunsdkcore.acs_exception.exceptions import ClientException, ServerException
@@ -84,7 +85,7 @@ class AcsClient:
                 instance_list = response.get("Instances").get("Instance")
                 print(f"page_number: {page_number} len(instance_list) {len(instance_list)}")
                 result += instance_list
-                if len(instance_list) != page_size:
+                if len(instance_list) != page_size or instance_ids is None:
                     return result
                 page_number += 1
                 time.sleep(1)
