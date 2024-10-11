@@ -200,7 +200,7 @@ class AcsClient:
         if zone_id is not None:
             request.set_ZoneId(zone_id)
         system_disk_category = ""
-        if image_id == "ecs.c7a.32xlarge":
+        if image_id == "m-gw8i9xo2mrbsyf2j5yba":
             system_disk_category = "cloud_efficiency"
             request.set_SystemDiskCategory(system_disk_category)
 
