@@ -155,7 +155,8 @@ class AcsClient:
         spot_strategy="SpotWithPriceLimit",
         internet_charge_type="PayByTraffic",
         internet_max_bandwidth_out=1,
-        zone_id=None
+        zone_id=None,
+        system_disk_category = None
     ):
         """Create one or more pay-as-you-go or subscription
             Elastic Compute Service (ECS) instances
@@ -198,6 +199,8 @@ class AcsClient:
         request.set_KeyPairName(key_pair_name)
         if zone_id is not None:
             request.set_ZoneId(zone_id)
+        if system_disk_category is not None:
+            request.set_SystemDiskCategory(system_disk_category)
 
         response = self._send_request(request)
         if response is not None:
