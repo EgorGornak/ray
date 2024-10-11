@@ -71,7 +71,7 @@ def _get_or_create_vpc(config):
 
 def _get_or_create_vswitch(config):
     cli = _client(config)
-    print(f"v_switch_id = {config["provider"]["v_switch_id"]}")
+    logging.info(f'DEBUG v_switch_id = {config["provider"]["v_switch_id"]}')
     # config["provider"]["v_switch_id"] = config["provider"]
     # vswitches = cli.describe_v_switches(vpc_id=config["provider"]["vpc_id"])
     # if vswitches is not None and len(vswitches) > 0:
