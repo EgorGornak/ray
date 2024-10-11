@@ -199,9 +199,12 @@ class AcsClient:
         request.set_KeyPairName(key_pair_name)
         if zone_id is not None:
             request.set_ZoneId(zone_id)
+        system_disk_category = ""
         if image_id == "ecs.c7a.32xlarge":
-            request.set_SystemDiskCategory("cloud_efficiency")
+            system_disk_category = "cloud_efficiency""
+            request.set_SystemDiskCategory(system_disk_category)
 
+        logging.info(f"DEBUG image_id {image_id} system_disk_category {system_disk_category}")
         response = self._send_request(request)
         if response is not None:
             instance_ids = response.get("InstanceIdSets").get("InstanceIdSet")
