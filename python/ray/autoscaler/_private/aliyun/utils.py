@@ -93,7 +93,7 @@ class AcsClient:
             response = self._send_request(request)
             if response is not None:
                 instance_list = response.get("Instances").get("Instance")
-                print(f"page_number: {page_number} len(instance_list) {len(instance_list)}")
+                logging.info(f"page_number: {page_number} len(instance_list) {len(instance_list)}")
                 result += instance_list
                 if len(instance_list) != page_size or instance_ids is not None:
                     break
@@ -106,7 +106,7 @@ class AcsClient:
                 'last_update_ts': time.time(),
                 'last_result': result
             }
-            print(f"DesctibeInstances put cache for {instance_ids_key}: {result}")
+            logging.info(f"DesctibeInstances put cache for {instance_ids_key}: {result}")
         return result
 
     def create_instance(
