@@ -73,7 +73,7 @@ class AcsClient:
 
         if instance_ids is not None:
             instance_ids_key = ','.join(map(str,  sorted(instance_ids)))
-            if instance_ids in self.cache:
+            if instance_ids_key in self.cache:
                 if time.time() - self.cache[instance_ids_key]['last_update_ts'] < 4:
                     logging.info(f"Use cache for describe_instances {instance_ids}")
                     return self.cache[instance_ids_key]['last_result']
