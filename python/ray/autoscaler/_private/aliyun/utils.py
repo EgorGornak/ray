@@ -219,7 +219,7 @@ class AcsClient:
             request.set_ZoneId(zone_id)
             result_json["zone_id"] = zone_id
 
-        if instance_type == "ecs.g6.26xlarge" or instance_type == "ecs.c6.26xlarge":
+        if instance_type == "ecs.u1-c1m8.8xlarge":
             request.set_SpotStrategy("NoSpot")
             result_json["spot_strategy"] = "NoSpot"
             request.set_ZoneId("eu-central-1b")
@@ -232,7 +232,7 @@ class AcsClient:
             result_json["vswitch_id"] = "vsw-gw8f1hlyuo2qb2ga4evlg"
 
 
-        logging.info(f"DEBUG v13.0 result_json {result_json}")
+        logging.info(f"DEBUG v15.0 result_json {result_json}")
 
         response = self._send_request(request)
         if response is not None:
