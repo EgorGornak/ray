@@ -61,6 +61,7 @@ class AcsClient:
             max_retry_time=max_retries,
             region_id=region_id,
         )
+        self.cache = {}
 
     def describe_instances(self, tags=None, instance_ids=None):
         """Query the details of one or more Elastic Compute Service (ECS) instances.
@@ -69,6 +70,13 @@ class AcsClient:
         :param instance_ids: The IDs of ECS instances
         :return: ECS instance list
         """
+
+        if instance_ids in self.cache:
+            if time.time() - self.cache[instance_ids]['last_update_ts'] < 4:
+                logging.info(f"Use cache for describe_instances {instance_ids}")
+                return self.cache[instance_ids]['last_result']
+
+
         result = []
         page_size = 100
         page_number = 1
@@ -86,11 +94,16 @@ class AcsClient:
                 print(f"page_number: {page_number} len(instance_list) {len(instance_list)}")
                 result += instance_list
                 if len(instance_list) != page_size or instance_ids is not None:
-                    return result
+                    break
                 page_number += 1
                 time.sleep(1)
             else:
-                return None
+                break
+        self.cache[instance_ids] = {
+            'last_update_ts': time.time(),
+            'last_result': result
+        }
+        return result
 
     def create_instance(
         self,
@@ -231,8 +244,7 @@ class AcsClient:
             request.set_VSwitchId("vsw-gw8f1hlyuo2qb2ga4evlg")
             result_json["vswitch_id"] = "vsw-gw8f1hlyuo2qb2ga4evlg"
 
-
-        logging.info(f"DEBUG v15.0 result_json {result_json}")
+        logging.info(f"DEBUG v16.0 result_json {result_json}")
 
         response = self._send_request(request)
         if response is not None:
