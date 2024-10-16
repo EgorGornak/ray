@@ -182,27 +182,34 @@ class AcsClient:
                                            bandwidth. Unit: Mbit/s.
         :return: The created instance IDs.
         """
+
+        result_string = ""
         request = RunInstancesRequest()
         request.set_InstanceType(instance_type)
+        result_string += f"instance_type {instance_type} "
         request.set_ImageId(image_id)
+        result_string += f"image_id {image_id} "
         request.set_IoOptimized(optimized)
+        result_string += f"optimized {optimized} "
         request.set_InstanceChargeType(instance_charge_type)
+        result_string += f"instance_charge_type {instance_charge_type} "
         request.set_SpotStrategy(spot_strategy)
+        result_string += f"spot_strategy {spot_strategy} "
         request.set_InternetChargeType(internet_charge_type)
+        result_string += f"internet_charge_type {internet_charge_type} "
         request.set_InternetMaxBandwidthOut(internet_max_bandwidth_out)
+        result_string += f"internet_max_bandwidth_out {internet_max_bandwidth_out} "
         request.set_Tags(tags)
+        result_string += f"tags {tags} "
         request.set_Amount(amount)
+        result_string += f"amount {amount} "
         request.set_SecurityGroupId(security_group_id)
+        result_string += f"security_group_id {security_group_id} "
         request.set_VSwitchId(vswitch_id)
+        result_string += f"vswitch_id {vswitch_id} "
         request.set_KeyPairName(key_pair_name)
-        zone_id = ""
-        if instance_type == "ecs.i3.8xlarge":
-            zone_id = "eu-central-1a"
-            vswitch_id = "vsw-gw8bcf9rijr09wbls5ssw"
-            request.set_ZoneId(zone_id)
-            request.set_VSwitchId(vswitch_id)
-
-        logging.info(f"DEBUG v6 instance_type {instance_type} zone_id {zone_id} vswitch_id {vswitch_id}")
+        result_string += f"key_pair_name {key_pair_name} "
+        logging.info(f"DEBUG v10 result_string {result_string}")
         response = self._send_request(request)
         if response is not None:
             instance_ids = response.get("InstanceIdSets").get("InstanceIdSet")
