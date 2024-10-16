@@ -71,10 +71,12 @@ class AcsClient:
         :return: ECS instance list
         """
 
-        if instance_ids in self.cache:
-            if time.time() - self.cache[instance_ids]['last_update_ts'] < 4:
-                logging.info(f"Use cache for describe_instances {instance_ids}")
-                return self.cache[instance_ids]['last_result']
+        if instance_ids is not None:
+            instance_ids_key = ','.join(map(str,  sorted(instance_ids)))
+            if instance_ids in self.cache:
+                if time.time() - self.cache[instance_ids_key]['last_update_ts'] < 4:
+                    logging.info(f"Use cache for describe_instances {instance_ids}")
+                    return self.cache[instance_ids_key]['last_result']
 
 
         result = []
@@ -99,10 +101,11 @@ class AcsClient:
                 time.sleep(1)
             else:
                 break
-        self.cache[instance_ids] = {
-            'last_update_ts': time.time(),
-            'last_result': result
-        }
+        if instance_ids is not None:
+            self.cache[instance_ids_key] = {
+                'last_update_ts': time.time(),
+                'last_result': result
+            }
         return result
 
     def create_instance(
