@@ -243,6 +243,8 @@ class AcsClient:
             result_json["zone_id"] = "eu-central-1b"
             request.set_VSwitchId("vsw-gw85ee9g7krb1ixp5f0gd")
             result_json["vswitch_id"] = "vsw-gw85ee9g7krb1ixp5f0gd"
+            request.set_SystemDiskCategory("cloud_essd")
+            result_json["system_disk_category"] = "cloud_essd"
 
         if instance_type == "ecs.c6.xlarge":
             request.set_VSwitchId("vsw-gw8f1hlyuo2qb2ga4evlg")
