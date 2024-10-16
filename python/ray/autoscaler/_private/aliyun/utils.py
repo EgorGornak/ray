@@ -236,7 +236,7 @@ class AcsClient:
             request.set_ZoneId(zone_id)
             result_json["zone_id"] = zone_id
 
-        if instance_type == "ecs.r7.8xlarge":
+        if instance_type == "ecs.u1-c1m4.8xlarge":
             request.set_SpotStrategy("NoSpot")
             result_json["spot_strategy"] = "NoSpot"
             # request.set_ZoneId("eu-central-1b")
