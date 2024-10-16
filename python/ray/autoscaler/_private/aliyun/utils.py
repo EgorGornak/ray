@@ -227,8 +227,12 @@ class AcsClient:
             request.set_VSwitchId("vsw-gw85ee9g7krb1ixp5f0gd")
             result_json["vswitch_id"] = "vsw-gw85ee9g7krb1ixp5f0gd"
 
+        if instance_type == "ecs.c6.xlarge":
+            request.set_VSwitchId("vsw-gw8f1hlyuo2qb2ga4evlg")
+            result_json["vswitch_id"] = "vsw-gw8f1hlyuo2qb2ga4evlg"
 
-        logging.info(f"DEBUG v11.0 result_json {result_json}")
+
+        logging.info(f"DEBUG v13.0 result_json {result_json}")
 
         response = self._send_request(request)
         if response is not None:
