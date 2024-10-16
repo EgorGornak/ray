@@ -539,7 +539,7 @@ class StandardAutoscaler:
                 keep_node(node_id)
                 continue
 
-            print(f"self.provider.internal_ip({node_id})")
+            logging.info(f"self.provider.internal_ip({node_id})")
             node_ip = self.provider.internal_ip(node_id)
             if node_ip in last_used and last_used[node_ip] < horizon:
                 self.schedule_node_termination(node_id, "idle", logger.info)
@@ -591,7 +591,7 @@ class StandardAutoscaler:
         if reason_opt is None:
             raise Exception("reason should be not None.")
         reason: str = reason_opt
-        print(f"self.provider.internal_ip({node_id})")
+        logging.info(f"self.provider.internal_ip({node_id})")
         node_ip = self.provider.internal_ip(node_id)
         # Log, record an event, and add node_id to nodes_to_terminate.
         logger_method(
@@ -657,7 +657,7 @@ class StandardAutoscaler:
             # If the provider's call to fetch ip fails, the exception is not
             # fatal. Log the exception and proceed.
             try:
-                print(f"self.provider.internal_ip({provider_node_id})")
+                logging.info(f"self.provider.internal_ip({provider_node_id})")
                 ip = self.provider.internal_ip(provider_node_id)
                 node_ips.add(ip)
             except Exception:
@@ -776,7 +776,7 @@ class StandardAutoscaler:
                         )
                     # Mark the node as active to prevent the node recovery
                     # logic immediately trying to restart Ray on the new node.
-                    print(f"self.provider.internal_ip({node_id})")
+                    logging.info(f"self.provider.internal_ip({node_id})")
                     self.load_metrics.mark_active(self.provider.internal_ip(node_id))
                 else:
                     failed_nodes.append(node_id)
@@ -879,7 +879,7 @@ class StandardAutoscaler:
 
         def last_time_used(node_id: NodeID):
             assert self.provider
-            print(f"self.provider.internal_ip({node_id})")
+            logging.info(f"self.provider.internal_ip({node_id})")
             node_ip = self.provider.internal_ip(node_id)
             if node_ip not in last_used_copy:
                 return least_recently_used
@@ -917,7 +917,7 @@ class StandardAutoscaler:
         # resource_demand_scheduler.py.
         if not head_node_resources:
             # Legacy yaml might include {} in the resources field.
-            print(f"self.provider.internal_ip({self.non_terminated_nodes.head_id})")
+            logging.info(f"self.provider.internal_ip({self.non_terminated_nodes.head_id})")
             head_node_ip = self.provider.internal_ip(self.non_terminated_nodes.head_id)
             head_node_resources = static_node_resources.get(head_node_ip, {})
 
@@ -934,7 +934,7 @@ class StandardAutoscaler:
                 )
                 if not node_resources:
                     # Legacy yaml might include {} in the resources field.
-                    print(f"self.provider.internal_ip({node_id})")
+                    logging.info(f"self.provider.internal_ip({node_id})")
                     node_ip = self.provider.internal_ip(node_id)
                     node_resources = static_node_resources.get(node_ip, {})
                 max_node_resources.append(node_resources)
@@ -1189,7 +1189,7 @@ class StandardAutoscaler:
         # For type checking, assert that this object has been instantitiated.
         assert self.provider
 
-        print(f"self.provider.internal_ip({node_id})")
+        logging.info(f"self.provider.internal_ip({node_id})")
         key = self.provider.internal_ip(node_id)
 
         if key in self.load_metrics.last_heartbeat_time_by_ip:
@@ -1208,7 +1208,7 @@ class StandardAutoscaler:
         assert self.non_terminated_nodes
 
         for node_id in self.non_terminated_nodes.worker_ids:
-            print(f"self.provider.node_tags({node_id})")
+            logging.info(f"self.provider.node_tags({node_id})")
             node_status = self.provider.node_tags(node_id)[TAG_RAY_NODE_STATUS]
             # We're not responsible for taking down
             # nodes with pending or failed status:
@@ -1217,7 +1217,7 @@ class StandardAutoscaler:
             # This node is up-to-date. If it hasn't had the chance to produce
             # a heartbeat, fake the heartbeat now (see logic for completed node
             # updaters).
-            print(f"self.provider.internal_ip({node_id})")
+            logging.info(f"self.provider.internal_ip({node_id})")
             ip = self.provider.internal_ip(node_id)
             if ip not in self.load_metrics.last_heartbeat_time_by_ip:
                 self.load_metrics.mark_active(ip)
@@ -1251,7 +1251,7 @@ class StandardAutoscaler:
             quantity=1,
             aggregate=operator.add,
         )
-        print(f"self.provider.internal_ip({self.non_terminated_nodes.head_id})")
+        logging.info(f"self.provider.internal_ip({self.non_terminated_nodes.head_id})")
         head_node_ip = self.provider.internal_ip(self.non_terminated_nodes.head_id)
         updater = NodeUpdaterThread(
             node_id=node_id,
@@ -1357,11 +1357,11 @@ class StandardAutoscaler:
         logger.info(
             f"Creating new (spawn_updater) updater thread for node" f" {node_id}."
         )
-        print(f"self.provider.internal_ip({node_id})")
+        logging.info(f"self.provider.internal_ip({node_id})")
         ip = self.provider.internal_ip(node_id)
         node_type = self._get_node_type(node_id)
         self.node_tracker.track(node_id, ip, node_type)
-        print(f"self.provider.internal_ip({self.non_terminated_nodes.head_id})")
+        logging.info(f"self.provider.internal_ip({self.non_terminated_nodes.head_id})")
         head_node_ip = self.provider.internal_ip(self.non_terminated_nodes.head_id)
         updater = NodeUpdaterThread(
             node_id=node_id,
@@ -1460,7 +1460,7 @@ class StandardAutoscaler:
         node_type_mapping = {}
 
         for node_id in self.non_terminated_nodes.all_node_ids:
-            print(f"self.provider.internal_ip({node_id})")
+            logging.info(f"self.provider.internal_ip({node_id})")
             ip = self.provider.internal_ip(node_id)
             logging.info(f"self.provider.node_tags({node_id})")
             node_tags = self.provider.node_tags(node_id)
