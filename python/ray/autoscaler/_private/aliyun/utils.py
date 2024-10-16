@@ -155,6 +155,9 @@ class AcsClient:
         spot_strategy="SpotWithPriceLimit",
         internet_charge_type="PayByTraffic",
         internet_max_bandwidth_out=1,
+        system_disk_category=None,
+        region_id=None,
+        zone_id=None,
     ):
         """Create one or more pay-as-you-go or subscription
             Elastic Compute Service (ECS) instances
@@ -182,34 +185,41 @@ class AcsClient:
                                            bandwidth. Unit: Mbit/s.
         :return: The created instance IDs.
         """
-
-        result_string = ""
+        result_json = {}
         request = RunInstancesRequest()
         request.set_InstanceType(instance_type)
-        result_string += f"instance_type {instance_type} "
+        result_json["instance_type"] = instance_type
         request.set_ImageId(image_id)
-        result_string += f"image_id {image_id} "
+        result_json["image_id"] = image_id
         request.set_IoOptimized(optimized)
-        result_string += f"optimized {optimized} "
+        result_json["optimized"] = optimized
+
         request.set_InstanceChargeType(instance_charge_type)
-        result_string += f"instance_charge_type {instance_charge_type} "
+        result_json["instance_charge_type"] = instance_charge_type
         request.set_SpotStrategy(spot_strategy)
-        result_string += f"spot_strategy {spot_strategy} "
+        result_json["spot_strategy"] = spot_strategy
         request.set_InternetChargeType(internet_charge_type)
-        result_string += f"internet_charge_type {internet_charge_type} "
+        result_json["internet_charge_type"] = internet_charge_type
         request.set_InternetMaxBandwidthOut(internet_max_bandwidth_out)
-        result_string += f"internet_max_bandwidth_out {internet_max_bandwidth_out} "
+        result_json["internet_max_bandwidth_out"] = internet_max_bandwidth_out
         request.set_Tags(tags)
-        result_string += f"tags {tags} "
+        result_json["tags"] = tags
         request.set_Amount(amount)
-        result_string += f"amount {amount} "
+        result_json["amount"] = amount
         request.set_SecurityGroupId(security_group_id)
-        result_string += f"security_group_id {security_group_id} "
+        result_json["security_group_id"] = security_group_id
         request.set_VSwitchId(vswitch_id)
-        result_string += f"vswitch_id {vswitch_id} "
+        result_json["vswitch_id"] = vswitch_id
         request.set_KeyPairName(key_pair_name)
-        result_string += f"key_pair_name {key_pair_name} "
-        logging.info(f"DEBUG v10 result_string {result_string}")
+        result_json["key_pair_name"] = key_pair_name
+        if region_id is not None:
+            request.set_RegionId(region_id)
+            result_json["region_id"] = region_id
+        if zone_id is not None:
+            request.set_ZoneId(zone_id)
+            result_json["zone_id"] = zone_id
+        logging.info(f"DEBUG v10_local result_json {result_json}")
+
         response = self._send_request(request)
         if response is not None:
             instance_ids = response.get("InstanceIdSets").get("InstanceIdSet")
