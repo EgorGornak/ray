@@ -222,6 +222,9 @@ class AcsClient:
         if instance_type == "ecs.g6.26xlarge" or instance_type == "ecs.c6.26xlarge":
             request.set_SpotStrategy("NoSpot")
             result_json["spot_strategy"] = "NoSpot"
+            request.set_ZoneId("eu-central-1b")
+            result_json["zone_id"] = "eu-central-1b"
+        
 
         logging.info(f"DEBUG v11.0 result_json {result_json}")
 
