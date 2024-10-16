@@ -236,15 +236,15 @@ class AcsClient:
             request.set_ZoneId(zone_id)
             result_json["zone_id"] = zone_id
 
-        if instance_type == "ecs.u1-c1m8.8xlarge":
+        if instance_type == "ecs.r7.8xlarge":
             request.set_SpotStrategy("NoSpot")
             result_json["spot_strategy"] = "NoSpot"
-            request.set_ZoneId("eu-central-1b")
-            result_json["zone_id"] = "eu-central-1b"
-            request.set_VSwitchId("vsw-gw85ee9g7krb1ixp5f0gd")
-            result_json["vswitch_id"] = "vsw-gw85ee9g7krb1ixp5f0gd"
-            request.set_SystemDiskCategory("cloud_essd")
-            result_json["system_disk_category"] = "cloud_essd"
+            # request.set_ZoneId("eu-central-1b")
+            # result_json["zone_id"] = "eu-central-1b"
+            # request.set_VSwitchId("vsw-gw85ee9g7krb1ixp5f0gd")
+            # result_json["vswitch_id"] = "vsw-gw85ee9g7krb1ixp5f0gd"
+            # request.set_SystemDiskCategory("cloud_essd")
+            # result_json["system_disk_category"] = "cloud_essd"
 
         if instance_type == "ecs.c6.xlarge":
             request.set_VSwitchId("vsw-gw8f1hlyuo2qb2ga4evlg")
