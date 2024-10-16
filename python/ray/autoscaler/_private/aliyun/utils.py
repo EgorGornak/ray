@@ -212,9 +212,9 @@ class AcsClient:
         result_json["vswitch_id"] = vswitch_id
         request.set_KeyPairName(key_pair_name)
         result_json["key_pair_name"] = key_pair_name
-        if region_id is not None:
-            request.set_RegionId(region_id)
-            result_json["region_id"] = region_id
+        # if region_id is not None:
+        #     request.set_RegionId(region_id)
+        #     result_json["region_id"] = region_id
         if zone_id is not None:
             request.set_ZoneId(zone_id)
             result_json["zone_id"] = zone_id
