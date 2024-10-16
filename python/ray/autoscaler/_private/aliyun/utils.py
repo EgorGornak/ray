@@ -224,7 +224,9 @@ class AcsClient:
             result_json["spot_strategy"] = "NoSpot"
             request.set_ZoneId("eu-central-1b")
             result_json["zone_id"] = "eu-central-1b"
-        
+            request.set_VSwitchId("vsw-gw85ee9g7krb1ixp5f0gd")
+            result_json["vswitch_id"] = "vsw-gw85ee9g7krb1ixp5f0gd"
+
 
         logging.info(f"DEBUG v11.0 result_json {result_json}")
 
