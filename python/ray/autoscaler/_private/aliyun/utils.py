@@ -106,6 +106,7 @@ class AcsClient:
                 'last_update_ts': time.time(),
                 'last_result': result
             }
+            print(f"DesctibeInstances put cache for {instance_ids_key}: {result}")
         return result
 
     def create_instance(
