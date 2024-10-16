@@ -78,6 +78,7 @@ class AliyunNodeProvider(NodeProvider):
                 }
             )
 
+        logging.info(f"non_terminated_nodes describe_instances")
         instances = self.acs.describe_instances(tags=tags)
         non_terminated_instance = []
         for instance in instances:
@@ -87,6 +88,7 @@ class AliyunNodeProvider(NodeProvider):
         return non_terminated_instance
 
     def is_running(self, node_id: str) -> bool:
+        logging.info(f"is_running describe_instances {node_id}")
         instances = self.acs.describe_instances(instance_ids=[node_id])
         if instances is not None:
             instance = instances[0]
@@ -95,6 +97,7 @@ class AliyunNodeProvider(NodeProvider):
         return False
 
     def is_terminated(self, node_id: str) -> bool:
+        logging.info(f"is_terminated describe_instances {node_id}")
         instances = self.acs.describe_instances(instance_ids=[node_id])
         if instances is not None:
             assert len(instances) == 1
@@ -104,6 +107,7 @@ class AliyunNodeProvider(NodeProvider):
         return False
 
     def node_tags(self, node_id: str) -> Dict[str, str]:
+        logging.info(f"node_tags describe_instances {node_id}")
         instances = self.acs.describe_instances(instance_ids=[node_id])
         if instances is not None:
             assert len(instances) == 1
@@ -117,6 +121,7 @@ class AliyunNodeProvider(NodeProvider):
 
     def external_ip(self, node_id: str) -> str:
         while True:
+            logging.info(f"external_ip describe_instances {node_id}")
             instances = self.acs.describe_instances(instance_ids=[node_id])
             if instances is not None:
                 assert len(instances)
@@ -132,6 +137,7 @@ class AliyunNodeProvider(NodeProvider):
 
     def internal_ip(self, node_id: str) -> str:
         while True:
+            logging.info(f"internal_ip describe_instances {node_id}")
             instances = self.acs.describe_instances(instance_ids=[node_id])
             if instances is not None:
                 assert len(instances) == 1
@@ -219,6 +225,7 @@ class AliyunNodeProvider(NodeProvider):
 
         reused_nodes_dict = {}
         if self.cache_stopped_nodes:
+            logging.info(f"create_node1 describe_instances")
             reuse_nodes_candidate = self.acs.describe_instances(tags=filter_tags)
             if reuse_nodes_candidate:
                 with cli_logger.group("Stopping instances to reuse"):
@@ -264,6 +271,7 @@ class AliyunNodeProvider(NodeProvider):
                 region_id = self.provider_config["region"],
                 zone_id = self.provider_config["zone_id"]
             )
+            logging.info(f"create_node2 describe_instances {instance_id_sets}")
             instances = self.acs.describe_instances(instance_ids=instance_id_sets)
 
             if instances is not None:
@@ -309,6 +317,7 @@ class AliyunNodeProvider(NodeProvider):
 
         # Node not in {pending, running} -- retry with a point query. This
         # usually means the node was recently preempted or terminated.
+        logging.info(f"_get_node describe_instances {node_id}")
         matches = self.acs.describe_instances(instance_ids=[node_id])
 
         assert len(matches) == 1, "Invalid instance id {}".format(node_id)
