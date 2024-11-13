@@ -7,6 +7,7 @@ return a list of node types that can satisfy the demands given constraints
 (i.e., reverse bin packing).
 """
 
+import random
 import collections
 import copy
 import logging
@@ -787,6 +788,11 @@ def get_nodes_for(
             break
 
         utilization_scores = sorted(utilization_scores, reverse=True)
+        print(f"utilization_scores before {utilization_scores}")
+        logger.info(f"utilization_scores before {utilization_scores}")
+        random.shuffle(utilization_scores)
+        print(f"utilization_scores after  {utilization_scores}")
+        logger.info(f"utilization_scores after  {utilization_scores}")
         best_node_type = utilization_scores[0][1]
         nodes_to_add[best_node_type] += 1
         if strict_spread:
